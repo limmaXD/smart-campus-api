@@ -1,11 +1,9 @@
-package com.smartcampus.model;
-
-import java.util.*;
+package com.smartcampus.models;
 
 public class Sensor {
     private String id;
     private String type;
-    private String status;
+    private String status; // ACTIVE, MAINTENANCE, OFFLINE
     private double currentValue;
     private String roomId;
 

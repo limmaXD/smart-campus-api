@@ -1,15 +1,12 @@
-package com.smartcampus.model;
-
-import java.util.*;
+package com.smartcampus.models;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
     private String id;
     private String name;
     private int capacity;
     private List<String> sensorIds = new ArrayList<>();
-
-
-    public Room() {}
 
     public String getId() {
         return id;
@@ -42,6 +39,4 @@ public class Room {
     public void setSensorIds(List<String> sensorIds) {
         this.sensorIds = sensorIds;
     }
-
-    // getters & setters
 }
