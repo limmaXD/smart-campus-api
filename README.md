@@ -82,11 +82,11 @@ Below are five sample commands to interact with the API. Ensure the server is ru
 
 # 1. Service Architecture and Setup
 
-- **In your report, explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.**
+**In your report, explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.**
 
 In a standard JAX-RS environment, resource classes follow a per request lifecycle. This means the runtime instantiates a fresh object for every single incoming HTTP request, which is then garbage collected once the response is dispatched. From a developer's perspective, this is a critical realization, instance level variables are transient and will not persist data between calls. To solve this in a system without a traditional database, I implemented thread safe, static data structures like Concurrent HashMap. This ensures that even though the objects handling the requests are short-lived, the Smart Campus data remains persistent and consistent across multiple concurrent threads.
 
-- **Why is the provision of ”Hypermedia” (links and navigation within responses) considered a hallmark of advanced RESTful design (HATEOAS)? How does this approach benefit client developers compared to static documentation?**
+**Why is the provision of ”Hypermedia” (links and navigation within responses) considered a hallmark of advanced RESTful design (HATEOAS)? How does this approach benefit client developers compared to static documentation?**
 
 Hypermedia as the Engine of Application State (HATEOAS) represents the highest level of REST maturity. By embedding discovery links such as the contact email and resource entry points directly into the root JSON response, we create a self-documenting API. For a client developer, this is far superior to relying on static PDF documentation. It allows the client to navigate the API dynamically, effectively decoupling the client’s logic from the server's specific URI paths. If I decide to move the room management endpoint in the future, a HATEOAS compliant client would simply follow the new link provided in the discovery response without needing a code update.
 
