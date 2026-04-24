@@ -25,11 +25,18 @@ public class SensorReadingResource {
     @POST
     public SensorReading add(SensorReading r) {
         Sensor s = SensorResource.sensorData.get(sensorId);
-        if (s == null || "MAINTENANCE".equals(s.getStatus())) {
+
+        if (s == null) {
+            throw new WebApplicationException("Sensor not found", 404);
+        }
+
+        if ("MAINTENANCE".equalsIgnoreCase(s.getStatus())) {
             throw new SensorUnavailableException("Sensor is under maintenance.");
         }
+
         history.computeIfAbsent(sensorId, k -> new ArrayList<>()).add(r);
         s.setCurrentValue(r.getValue());
+
         return r;
     }
 }

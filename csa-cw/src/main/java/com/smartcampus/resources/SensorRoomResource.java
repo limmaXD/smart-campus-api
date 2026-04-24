@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SensorRoomResource {
-    // In-memory database (Task requirement: NO SQL)
     public static final Map<String, Room> roomData = new ConcurrentHashMap<>();
 
     @GET
@@ -32,5 +31,17 @@ public class SensorRoomResource {
         }
         roomData.remove(id);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getById(@PathParam("id") String id) {
+        Room r = roomData.get(id);
+        if (r == null) {
+            // Return 404 instead of letting it crash to a 500
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Map.of("error", "Room not found")).build();
+        }
+        return Response.ok(r).build();
     }
 }

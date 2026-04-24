@@ -5,7 +5,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.*;
 import java.util.Map;
 
-@Provider
 public class ExceptionMappers {
 
     @Provider
@@ -22,10 +21,18 @@ public class ExceptionMappers {
         }
     }
 
+    // ADD THIS ONE: This fixes the 403 Forbidden requirement
+    @Provider
+    public static class SensorUnavailableMapper implements ExceptionMapper<CustomExceptions.SensorUnavailableException> {
+        public Response toResponse(CustomExceptions.SensorUnavailableException e) {
+            return Response.status(403).entity(Map.of("error", e.getMessage())).build();
+        }
+    }
+
     @Provider
     public static class GlobalMapper implements ExceptionMapper<Throwable> {
         public Response toResponse(Throwable t) {
-            t.printStackTrace(); // Log for server console
+            t.printStackTrace();
             return Response.status(500).entity(Map.of("error", "An internal error occurred.")).build();
         }
     }

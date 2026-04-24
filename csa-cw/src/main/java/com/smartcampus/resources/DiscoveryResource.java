@@ -1,4 +1,5 @@
 package com.smartcampus.resources;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -12,8 +13,15 @@ public class DiscoveryResource {
     public Map<String, Object> discover() {
         return Map.of(
                 "apiVersion", "1.0",
-                "contact", "lead.architect@university.edu",
-                "resources", Map.of("rooms", "/api/v1/rooms", "sensors", "/api/v1/sensors")
+                "resources", Map.of(
+                        "rooms", "/api/v1/rooms",
+                        "sensors", "/api/v1/sensors"
+                ),
+                "contact", Map.of(
+                        "owner", "Limuthu Karunasinghe",
+                        "module", "5COSC022C.2",
+                        "email", "w2120193@westminster.ac.uk"
+                )
         );
     }
 }
