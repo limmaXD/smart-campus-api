@@ -14,7 +14,6 @@ public class SensorResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Sensor s) {
-        // Validation: Does the room exist?
         if (!SensorRoomResource.roomData.containsKey(s.getRoomId())) {
             throw new LinkedResourceNotFoundException("Validation Failed: Room ID not found.");
         }
@@ -31,7 +30,6 @@ public class SensorResource {
                 .toList();
     }
 
-    // Task 4: Sub-resource locator for readings
     @Path("/{sensorId}/read")
     public SensorReadingResource getReadings(@PathParam("sensorId") String id) {
         return new SensorReadingResource(id);

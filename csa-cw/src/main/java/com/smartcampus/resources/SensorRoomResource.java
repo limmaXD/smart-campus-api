@@ -25,7 +25,6 @@ public class SensorRoomResource {
     @Path("/{id}")
     public Response delete(@PathParam("id") String id) {
         Room r = roomData.get(id);
-        // Safety Logic: Cannot delete if sensors are linked
         if (r != null && !r.getSensorIds().isEmpty()) {
             throw new RoomNotEmptyException("Constraint Violation: Room contains sensors.");
         }
@@ -38,7 +37,6 @@ public class SensorRoomResource {
     public Response getById(@PathParam("id") String id) {
         Room r = roomData.get(id);
         if (r == null) {
-            // Return 404 instead of letting it crash to a 500
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(Map.of("error", "Room not found")).build();
         }
